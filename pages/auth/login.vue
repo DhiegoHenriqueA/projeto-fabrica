@@ -12,10 +12,10 @@
               <v-flex class="text-center">
                 <v-img
                   class="mx-auto"
-                  lazy-src="https://assets.stickpng.com/images/6011ce342a08e9000490ab8c.png"
+                  lazy-src="https://seeklogo.com/images/S/sistema-plastics-logo-17DF2B9346-seeklogo.com.gif"
                   max-height="106"
                   max-width="250"
-                  src="https://assets.stickpng.com/images/6011ce342a08e9000490ab8c.png"
+                  src="https://seeklogo.com/images/S/sistema-plastics-logo-17DF2B9346-seeklogo.com.gif"
                 ></v-img>
               </v-flex>
               <v-card-text text-center>
@@ -76,15 +76,23 @@ export default {
       password: "",
       rules: {
         required: (value) => !!value || "Obrigatório",
-        min: (v) => v.length >= 8 || "Min 8 characters",
+        min: (v) => v.length >= 4 || "Min 4 characters",
         emailMatch: () => `The email and password you entered don't match`,
       },
     };
   },
   methods: {
-    login() {
-      const { username } = this;
-      console.log(username + "logged in");
+    async login() {
+      const users = await this.$axios.$get("http://localhost:3000/users");
+
+      const existsUser = users.find(
+        (user) => user.email === this.email && user.senha === this.password
+      );
+
+      if (!existsUser) return;
+
+      sessionStorage.setItem("user", JSON.stringify(existsUser));
+      console.log("aaa", sessionStorage.getItem("user"));
       this.$router.push("/");
     },
   },

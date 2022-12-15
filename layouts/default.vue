@@ -75,33 +75,28 @@ export default {
       items: [
         {
           icon: "mdi-apps",
-          title: "Home",
-          to: "/",
-        },
-        {
-          icon: "mdi-chart-bubble",
           title: "Projetos",
           to: "/projects",
         },
         {
-          icon: "mdi-chart-bubble",
-          title: "Bolsistas",
-          to: "/fellows",
-        },
-        {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-laptop-account",
           title: "Computadores",
           to: "/computers",
         },
       ],
       itemsProfile: [
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-account",
           title: "Meus Dados",
-          to: "/projects",
+          to: "/profile",
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-laptop-account",
+          title: "Minhas Reservas",
+          to: "/reservations",
+        },
+        {
+          icon: "mdi-exit-to-app",
           title: "Sair",
           to: "/auth/login",
         },
@@ -111,6 +106,15 @@ export default {
       rightDrawer: false,
       title: "Fabrica Softaware Admin",
     };
+  },
+  mounted() {
+    if (JSON.parse(sessionStorage?.getItem("user"))?.tipo === "coordenador") {
+      this.items.push({
+        icon: "mdi-account-group",
+        title: "Usuários",
+        to: "/fellows",
+      });
+    }
   },
 };
 </script>

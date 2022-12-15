@@ -23,8 +23,25 @@
                 parseInt(projectFellows.length)
               }}
             </v-chip>
-            <v-btn text color="teal accent-4" dark v-bind="attrs" v-on="on">
+            <v-btn
+              v-if="isCoordinate"
+              text
+              color="teal accent-4"
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
               <v-icon dark> mdi-pencil </v-icon>
+            </v-btn>
+            <v-btn
+              v-else
+              text
+              color="teal accent-4"
+              dark
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon dark> mdi-eye</v-icon>
             </v-btn>
           </v-row>
         </template>
@@ -37,6 +54,8 @@
               <v-row>
                 <v-col cols="12">
                   <v-text-field
+                    :solo="!isCoordinate"
+                    :readonly="!isCoordinate"
                     v-model="projectName"
                     label="Titulo"
                     required
@@ -44,6 +63,8 @@
                 </v-col>
                 <v-col cols="12">
                   <v-textarea
+                    :solo="!isCoordinate"
+                    :readonly="!isCoordinate"
                     v-model="projectDesc"
                     label="Descricao"
                   ></v-textarea>
@@ -51,6 +72,8 @@
 
                 <v-col cols="12" sm="6">
                   <v-text-field
+                    :solo="!isCoordinate"
+                    :readonly="!isCoordinate"
                     v-model="projectDate"
                     label="Previsão de Conclusão"
                     required
@@ -58,6 +81,8 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-autocomplete
+                    :solo="!isCoordinate"
+                    :readonly="!isCoordinate"
                     v-model="projectStatus"
                     :items="['Em Desenvolvimento', 'Aguardando Aprovação']"
                     label="Status"
@@ -66,6 +91,8 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select
+                    :solo="!isCoordinate"
+                    :readonly="!isCoordinate"
                     v-model="projectCoordinator"
                     :items="coordenadores"
                     label="Coordenador*"
@@ -75,6 +102,8 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-autocomplete
+                    :solo="!isCoordinate"
+                    :readonly="!isCoordinate"
                     v-model="projectFellows"
                     :items="bolsistas"
                     label="Bolsistas"
@@ -84,13 +113,27 @@
               </v-row>
             </v-container>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions class="pa-5">
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="dialog = false">
               Close
             </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">
+            <v-btn
+              v-if="isCoordinate"
+              color="blue darken-1"
+              text
+              @click="editProject()"
+            >
               Save
+            </v-btn>
+            <v-btn
+              v-else
+              color="teal accent-4"
+              dark
+              right
+              @click="dialog = false"
+            >
+              Solicitar Participação
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -101,6 +144,7 @@
 <script>
 export default {
   props: {
+    projectId: [String, Number],
     projectName: String,
     projectDesc: String,
     projectDate: String,
@@ -109,6 +153,7 @@ export default {
     projectCoordinator: String,
   },
   data: () => ({
+    isCoordinate: false,
     newProject: {
       titulo: "",
       descricao: "",
@@ -141,6 +186,32 @@ export default {
       "Amélia Bezerra",
     ],
   }),
-  methods: {},
+  mounted() {
+    if (JSON.parse(sessionStorage.getItem("user"))?.tipo === "coordenador") {
+      this.isCoordinate = true;
+      return;
+    }
+
+    this.isCoordinate = false;
+  },
+
+  methods: {
+    async editProject() {
+      await this.$axios.$put(
+        `http://localhost:3000/projects/${this.projectId}`,
+        {
+          id: this.projectId,
+          titulo: this.projectName,
+          descricao: this.projectDesc,
+          dt_previsao_conclusao: this.projectDate,
+          status: this.projectStatus,
+          bolsistas: this.projectFellows,
+          coordenadores: this.projectCoordinator,
+        }
+      );
+      this.dialog = false;
+      window.location.reload();
+    },
+  },
 };
 </script>

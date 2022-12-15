@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-card-text style="height: 100px; position: relative">
+    <v-card-text style="height: 100px; position: relative" v-if="isCoordinate">
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
           <v-fab-transition>
-            <v-btn dark top right @click="dialog = true">
+            <v-btn color="teal accent-4" dark top right @click="dialog = true">
               Adicionar <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-fab-transition>
@@ -12,7 +12,7 @@
 
         <v-card>
           <v-card-title>
-            <span class="text-h5">Projeto </span>
+            <span class="text-h5">Novo Projeto </span>
           </v-card-title>
           <v-card-text>
             <v-container>
@@ -43,13 +43,12 @@
                     v-model="newProject.status"
                     :items="['Em Desenvolvimento', 'Aguardando Aprovação']"
                     label="Status"
-                    multiple
                   ></v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select
                     v-model="newProject.coordenadores"
-                    :items="['João Silva', 'José Silva']"
+                    :items="coordenadores"
                     label="Coordenador*"
                     multiple
                     required
@@ -58,7 +57,7 @@
                 <v-col cols="12" sm="6">
                   <v-autocomplete
                     v-model="newProject.bolsistas"
-                    :items="['Lucas Costa', 'Pedro Souza']"
+                    :items="bolsistas"
                     label="Bolsistas"
                     multiple
                   ></v-autocomplete>
@@ -81,6 +80,7 @@
     <v-row class="d-flex justify-start mb-6">
       <v-col cols="3" v-for="(project, index) in projects" :key="index">
         <project-card
+          :projectId="project.id"
           :projectName="project.titulo"
           :projectDesc="project.descricao"
           :projectStatus="project.status"
@@ -100,6 +100,7 @@ export default {
   },
   data() {
     return {
+      isCoordinate: false,
       newProject: {
         titulo: "",
         descricao: "",
@@ -108,58 +109,51 @@ export default {
         coordenadores: [],
         bolsistas: [],
       },
-      dialog: false,
-      projects: [
-        {
-          titulo: "Rede Social IFC",
-          descricao: "Rede Social IFC para todos os alunos se conectarem",
-          status: "Em Desenvolvimento",
-          dt_previsao_conclusao: "10/12/2023",
-          bolsistas: ["Alfredo Quadros", "Rogério Delchiaro"],
-          coordenadores: ["Vânia Espíndola", "Amélia Bezerra"],
-        },
-        {
-          titulo: "Cachorros Abandonados IFC",
-          status: "Em Desenvolvimento",
-          dt_previsao_conclusao: "10/12/2023",
-          bolsistas: ["Rogério Delchiaro"],
-          coordenadores: ["Fabiano Simões", "Marcos Silveira"],
-        },
-        {
-          titulo: "Ração Suinos",
-          status: "Aguardando Aprovação",
-          dt_previsao_conclusao: "10/12/2023",
-          bolsistas: ["Roberto Sá", "Evandro Guerra"],
-          coordenadores: ["Fabiano Simões", "Inês Salgado"],
-        },
-        {
-          titulo: "Controle de Entrada e Saída IFC",
-          status: "Em Desenvolvimento",
-          dt_previsao_conclusao: "10/12/2023",
-          bolsistas: ["Roberto Sá", "Fabiano Simões"],
-          coordenadores: ["Amélia Bezerra"],
-        },
-        {
-          titulo: "Pesquisa segurnaça de aplicações",
-          status: "Aguardando Aprovação",
-          dt_previsao_conclusao: "10/12/2023",
-          bolsistas: ["Carla Branco", "Alfredo Quadros"],
-          coordenadores: ["Vânia Espíndola"],
-        },
-        {
-          titulo: "Novo Site IFC",
-          status: "Finalizado",
-          dt_previsao_conclusao: "10/12/2023",
-          bolsistas: [],
-          coordenadores: ["Vânia Espíndola"],
-        },
+      bolsistas: [
+        "Alfredo Quadros",
+        "Roberto Sá",
+        "Evandro Guerra",
+        "Marcos Silveira",
+        "Fabiano Simões",
+        "Rogério Delchiaro",
       ],
+      coordenadores: [
+        "Rogério Delchiaro",
+        "Fabiano Simões",
+        "Marcos Silveira",
+        "Evandro Guerra",
+        "Roberto Sá",
+        "Alfredo Quadros",
+        "Carla Branco",
+        "Inês Salgado",
+        "Valquíria Farias",
+        "Ana Garcia",
+        "Vânia Espíndola",
+        "Amélia Bezerra",
+      ],
+      dialog: false,
     };
   },
+  async asyncData({ $axios }) {
+    const projects = await $axios.$get("http://localhost:3000/projects");
+    return { projects };
+  },
+  mounted() {
+    if (JSON.parse(sessionStorage.getItem("user"))?.tipo === "coordenador") {
+      this.isCoordinate = true;
+      return;
+    }
+
+    this.isCoordinate = false;
+  },
   methods: {
-    saveProject() {
+    async saveProject() {
+      await this.$axios.$post(
+        "http://localhost:3000/projects",
+        this.newProject
+      );
       this.dialog = false;
-      this.projects.push(this.newProject);
+      window.location.reload();
     },
   },
 };

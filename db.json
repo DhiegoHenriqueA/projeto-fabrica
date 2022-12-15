@@ -1,0 +1,206 @@
+{
+  "projects": [
+    {
+      "id": 4,
+      "titulo": "Controle de Entrada e Saída IFC teste",
+      "dt_previsao_conclusao": "10/12/2023",
+      "status": "Em Desenvolvimento",
+      "bolsistas": [
+        "Roberto Sá",
+        "Fabiano Simões"
+      ],
+      "coordenadores": [
+        "Amélia Bezerra"
+      ]
+    },
+    {
+      "id": 5,
+      "titulo": "Pesquisa segurnaça de aplicações teste",
+      "dt_previsao_conclusao": "10/12/2023",
+      "status": "Aguardando Aprovação",
+      "bolsistas": [
+        "Carla Branco",
+        "Alfredo Quadros"
+      ],
+      "coordenadores": [
+        "Vânia Espíndola"
+      ]
+    },
+    {
+      "id": 6,
+      "titulo": "Novo portal de notícias IFC",
+      "status": "Finalizado",
+      "dt_previsao_conclusao": "10/12/2023",
+      "bolsistas": [],
+      "coordenadores": [
+        "Vânia Espíndola"
+      ]
+    },
+    {
+      "titulo": "dasfsd",
+      "descricao": "fsdfsd",
+      "status": "Em Desenvolvimento",
+      "dt_previsao_conclusao": "fdsdfsd",
+      "coordenadores": [
+        "Fabiano Simões"
+      ],
+      "bolsistas": [
+        "Marcos Silveira"
+      ],
+      "id": 7
+    },
+    {
+      "titulo": "sddfsdf",
+      "descricao": "fsdfsd",
+      "status": "Em Desenvolvimento",
+      "dt_previsao_conclusao": "10/10/2022",
+      "coordenadores": [
+        "Fabiano Simões",
+        "Marcos Silveira"
+      ],
+      "bolsistas": [
+        "Marcos Silveira",
+        "Roberto Sá"
+      ],
+      "id": 8
+    },
+    {
+      "titulo": "dfsdf",
+      "descricao": "sdfsdfsd",
+      "status": "",
+      "dt_previsao_conclusao": "sdfsdgdssd",
+      "coordenadores": [
+        "Marcos Silveira",
+        "Evandro Guerra"
+      ],
+      "bolsistas": [
+        "Fabiano Simões"
+      ],
+      "id": 9
+    },
+    {
+      "titulo": "asfasf",
+      "descricao": "asfasdas",
+      "status": "Aguardando Aprovação",
+      "dt_previsao_conclusao": "asfasf",
+      "coordenadores": [
+        "Fabiano Simões",
+        "Marcos Silveira"
+      ],
+      "bolsistas": [
+        "Alfredo Quadros",
+        "Fabiano Simões"
+      ],
+      "id": 10
+    },
+    {
+      "titulo": "aaaaaaa",
+      "descricao": "gsdfsdgggggggggggggggg",
+      "status": "Em Desenvolvimento",
+      "dt_previsao_conclusao": "dgsd",
+      "coordenadores": [
+        "Fabiano Simões"
+      ],
+      "bolsistas": [
+        "Marcos Silveira"
+      ],
+      "id": 11
+    }
+  ],
+  "computers": [
+    {
+      "id": 1,
+      "codigo": 5,
+      "configuracao": "I5 10 geração 16mb RAM",
+      "laboratorio": "B2"
+    },
+    {
+      "id": 2,
+      "codigo": 3,
+      "configuracao": "I5 11 geração 18mb RAM",
+      "laboratorio": "B2"
+    },
+    {
+      "id": 3,
+      "codigo": 7,
+      "configuracao": "I7 7 geração 16mb RAM",
+      "laboratorio": "B2"
+    },
+    {
+      "codigo": "fsdfsd",
+      "configuracao": "sdfsdfsd",
+      "laboratorio": "B4",
+      "id": 4
+    },
+    {
+      "codigo": "dfsd",
+      "configuracao": "fsdfsd",
+      "laboratorio": "B4",
+      "id": 5
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "nome": "Joao Aguiar - Coordenador",
+      "tipo": "coordenador",
+      "email": "coordenador@gmail.com",
+      "senha": "1234",
+      "cpf": "553.659.278-95"
+    },
+    {
+      "id": 2,
+      "nome": "Mario Portela - Bolsista",
+      "tipo": "bolsista",
+      "email": "bolsista@gmail.com",
+      "senha": "1234",
+      "cpf": "143.657.668-05"
+    },
+    {
+      "nome": "tesfte",
+      "tipo": "coordenador",
+      "email": "teste@gmail.com",
+      "senha": "dxmqpy",
+      "cpf": "0000000000",
+      "id": 3
+    },
+    {
+      "nome": "teste",
+      "tipo": "coordenador",
+      "email": "teste@teste",
+      "senha": "8v9bo2",
+      "cpf": "0000000000",
+      "id": 4
+    }
+  ],
+  "reservations": [
+    {
+      "user_id": 2,
+      "periodo": [
+        "Segunda-feira 10h - 12h",
+        "Segunda-feira 13h - 15h"
+      ],
+      "computador": {
+        "id": 1,
+        "codigo": 5,
+        "laboratorio": "B2",
+        "configuracao": "I5 10 geração 16mb RAM"
+      },
+      "id": 6
+    },
+    {
+      "user_id": 2,
+      "periodo": [
+        "Segunda-feira 13h - 15h",
+        "Segunda-feira 15h - 17h"
+      ],
+      "computador": {
+        "id": 1,
+        "codigo": 5,
+        "laboratorio": "B2",
+        "configuracao": "I5 10 geração 16mb RAM"
+      },
+      "id": 7
+    }
+  ]
+}
